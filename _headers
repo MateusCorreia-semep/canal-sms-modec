@@ -3,8 +3,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), camera=(), microphone=(), interest-cohort=()
-  Content-Security-Policy: default-src 'self'; img-src 'self' data: https://picsum.photos https://fastly.picsum.photos; script-src 'self'; style-src 'self'; connect-src 'self'; form-action 'self' https://wa.me; frame-ancestors 'none'; base-uri 'self'
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'
 
-# picsum.photos está liberado só porque a logo é um placeholder (ver config.json → logo).
-# Ao trocar pelo arquivo oficial em assets/img/, remover os dois domínios de img-src.
+# Todos os recursos são servidos do próprio domínio — nenhuma exceção externa.
 # Ao ligar o Turnstile (Etapa 3), acrescentar https://challenges.cloudflare.com em script-src e frame-src.

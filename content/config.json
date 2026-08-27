@@ -1,6 +1,5 @@
 {
   "versao": "2026-08-27",
-  "contrato": "Contrato MODEC",
   "janelaAtendimento": "Segunda a sexta, das 08h às 17h",
   "telefoneEmergencia": "PENDENTE-WA-05",
 
@@ -40,7 +39,7 @@
   },
 
   "logo": {
-    "url": "https://picsum.photos/seed/priner/240/72",
-    "_nota": "PLACEHOLDER (Lorem Picsum). Trocar por assets/img/priner.svg antes do piloto e fechar a CSP no _headers."
+    "url": "assets/img/Logo_Priner_RGB-02.png",
+    "_nota": "Versão para fundo escuro: wordmark branco + símbolo Verde Inovação. O src já vem no HTML; este campo só serve para trocar a logo sem mexer nas páginas."
   }
 }
