@@ -1,0 +1,259 @@
+/* Canal SMS Priner — identidade visual oficial da Priner
+   Verde Tradição #0B514F · Verde Inovação #99FF33 · Cinza Solidez #808080
+   Atyp não é licenciada para web: usa-se Arial, mesma regra do pacote Office. */
+
+:root {
+  --verde-tradicao: #0B514F;
+  --verde-tradicao-escuro: #073B39;
+  --verde-inovacao: #99FF33;
+  --branco: #FFFFFF;
+  --cinza-solidez: #808080;
+  --cinza-fundo: #F2F4F4;
+  --texto: #1A1A1A;
+
+  /* Fora da paleta de marca, reservado exclusivamente ao aviso de segurança.
+     Sinalização de risco exige contraste que o verde institucional não dá. */
+  --alerta: #B3261E;
+  --alerta-fundo: #FDECEA;
+
+  --raio: 10px;
+  --toque-min: 56px; /* alvo de toque para uso com luva */
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--texto);
+  background: var(--cinza-fundo);
+}
+
+.container {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ---------- Cabeçalho ---------- */
+
+.topo {
+  background: var(--verde-tradicao);
+  color: var(--branco);
+  padding: 20px 0 24px;
+}
+
+.topo__logo { height: 40px; width: auto; display: block; }
+
+.topo__titulo {
+  margin: 16px 0 4px;
+  font-size: 26px;
+  line-height: 1.2;
+  font-weight: bold;
+}
+
+.topo__sub { margin: 0; font-size: 15px; opacity: .85; }
+
+/* Grifo: sempre Verde Inovação ou Branco Transparência */
+.grifo {
+  background: var(--verde-inovacao);
+  color: var(--verde-tradicao);
+  padding: 0 6px;
+  font-weight: bold;
+}
+
+/* ---------- Aviso de segurança (RF15) ---------- */
+
+.aviso {
+  background: var(--alerta-fundo);
+  border-left: 6px solid var(--alerta);
+  border-radius: var(--raio);
+  padding: 14px 16px;
+  margin: 20px 0;
+}
+
+.aviso__titulo {
+  margin: 0 0 6px;
+  color: var(--alerta);
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.aviso p { margin: 0; font-size: 15px; }
+
+.aviso a { color: var(--alerta); font-weight: bold; }
+
+/* ---------- Cards do menu ---------- */
+
+.menu { list-style: none; margin: 0 0 28px; padding: 0; }
+
+.menu li { margin-bottom: 12px; }
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: var(--toque-min);
+  padding: 16px;
+  background: var(--branco);
+  border: 1px solid #DDE2E2;
+  border-radius: var(--raio);
+  text-decoration: none;
+  color: var(--texto);
+}
+
+.card:active { background: var(--cinza-fundo); }
+
+.card:focus-visible { outline: 3px solid var(--verde-tradicao); outline-offset: 2px; }
+
+.card__num {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--verde-tradicao);
+  color: var(--verde-inovacao);
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.card__texto { flex: 1 1 auto; }
+
+.card__titulo { display: block; font-size: 18px; font-weight: bold; color: var(--verde-tradicao); }
+
+.card__desc { display: block; font-size: 14px; color: var(--cinza-solidez); }
+
+.card__seta { flex: 0 0 auto; color: var(--verde-tradicao); font-size: 22px; }
+
+/* ---------- Conteúdo interno ---------- */
+
+.conteudo { padding: 24px 0 8px; }
+
+.conteudo h1 { margin: 0 0 4px; font-size: 24px; color: var(--verde-tradicao); }
+
+.conteudo .chamada { margin: 0 0 20px; color: var(--cinza-solidez); }
+
+.voltar {
+  display: inline-block;
+  margin: 16px 0;
+  color: var(--verde-tradicao);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.painel {
+  background: var(--branco);
+  border: 1px solid #DDE2E2;
+  border-radius: var(--raio);
+  padding: 18px 16px;
+  margin-bottom: 16px;
+}
+
+/* ---------- Formulários ---------- */
+
+.campo { margin-bottom: 16px; }
+
+.campo label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 15px; }
+
+.campo .ajuda { display: block; font-weight: normal; color: var(--cinza-solidez); font-size: 13px; }
+
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  min-height: var(--toque-min);
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 17px;
+  color: var(--texto);
+  background: var(--branco);
+  border: 2px solid #C6CCCC;
+  border-radius: var(--raio);
+}
+
+.campo textarea { min-height: 120px; resize: vertical; }
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--verde-tradicao);
+  box-shadow: 0 0 0 3px rgba(11, 81, 79, .18);
+}
+
+.opcoes { display: grid; gap: 10px; }
+
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--toque-min);
+  padding: 12px 14px;
+  background: var(--branco);
+  border: 2px solid #C6CCCC;
+  border-radius: var(--raio);
+  cursor: pointer;
+}
+
+.opcao input { width: 24px; height: 24px; margin: 0; accent-color: var(--verde-tradicao); }
+
+.opcao:has(input:checked) { border-color: var(--verde-tradicao); background: #F0F7F6; }
+
+.botao {
+  display: block;
+  width: 100%;
+  min-height: var(--toque-min);
+  padding: 16px;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--verde-tradicao);
+  background: var(--verde-inovacao);
+  border: none;
+  border-radius: var(--raio);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.botao[disabled] { opacity: .6; cursor: progress; }
+
+.botao--secundario {
+  color: var(--branco);
+  background: var(--verde-tradicao);
+}
+
+.status { margin: 12px 0 0; font-size: 15px; min-height: 1.5em; }
+
+.status--erro { color: var(--alerta); }
+
+/* ---------- Rodapé ---------- */
+
+.rodape {
+  margin-top: 32px;
+  padding: 20px 0 28px;
+  background: var(--verde-tradicao-escuro);
+  color: var(--branco);
+  font-size: 13px;
+}
+
+.rodape p { margin: 0 0 8px; opacity: .85; }
+
+.rodape strong { opacity: 1; }
+
+/* ---------- Utilitários ---------- */
+
+.oculto { display: none !important; }
+
+.lista-simples { padding-left: 20px; }
+
+.lista-simples li { margin-bottom: 8px; }

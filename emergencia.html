@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Comunicar evento ou emergência — Canal SMS Priner</title>
+<link rel="stylesheet" href="assets/css/estilo.css">
+</head>
+<body>
+
+<header class="topo">
+  <div class="container">
+    <img class="topo__logo" data-cfg-src="logo.url" src="" alt="Priner">
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="aviso" role="alert">
+    <p class="aviso__titulo">Antes de continuar</p>
+    <p>
+      Se há risco à vida agora, <strong>acione o resgate da sua unidade</strong>:
+      <strong data-cfg="telefoneEmergencia">&nbsp;</strong>.
+      Este formulário registra o evento — ele não aciona socorro.
+    </p>
+  </section>
+
+  <div class="conteudo">
+    <h1>Comunicar evento ou emergência</h1>
+    <p class="chamada">Preencha os dados abaixo. Ao final, o WhatsApp abre com a mensagem pronta para você enviar ao TST.</p>
+  </div>
+
+  <form class="painel"
+        data-caminho="EMERGENCIA"
+        data-wa-destino="sms"
+        data-abertura="[CANAL SMS] Comunicação de evento / emergência"
+        novalidate>
+
+    <div class="campo">
+      <label for="nome">Seu nome completo</label>
+      <input id="nome" type="text" autocomplete="name" required
+             data-campo="nome" data-rotulo="Nome">
+    </div>
+
+    <div class="campo">
+      <label for="matricula">Matrícula</label>
+      <input id="matricula" type="text" inputmode="numeric" required
+             data-campo="matricula" data-rotulo="Matrícula">
+    </div>
+
+    <div class="campo">
+      <label for="local">Local do evento
+        <span class="ajuda">Unidade, área, embarcação ou plataforma</span>
+      </label>
+      <input id="local" type="text" required
+             data-campo="local" data-rotulo="Local">
+    </div>
+
+    <div class="campo">
+      <label for="tipo">Tipo de evento</label>
+      <select id="tipo" required data-campo="tipo" data-rotulo="Tipo">
+        <option value="">Selecione…</option>
+        <option>Quase acidente</option>
+        <option>Condição insegura</option>
+        <option>Ato inseguro</option>
+        <option>Acidente sem afastamento</option>
+        <option>Acidente com afastamento</option>
+        <option>Incidente ambiental</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="descricao">O que aconteceu
+        <span class="ajuda">Descreva com suas palavras: o que houve, quando e quem estava envolvido</span>
+      </label>
+      <textarea id="descricao" required
+                data-campo="descricao" data-rotulo="Descrição"></textarea>
+    </div>
+
+    <button class="botao" type="submit">Registrar e falar no WhatsApp</button>
+    <p class="status" role="status" aria-live="polite"></p>
+  </form>
+
+  <a class="voltar" href="index.html">&lsaquo; Voltar ao menu</a>
+
+</main>
+
+<footer class="rodape">
+  <div class="container">
+    <p><strong>Atendimento:</strong> <span data-cfg="janelaAtendimento">&nbsp;</span></p>
+    <p>Priner · Canal SMS · versão <span data-cfg="versao">&nbsp;</span></p>
+  </div>
+</footer>
+
+<script src="assets/js/portal.js"></script>
+</body>
+</html>

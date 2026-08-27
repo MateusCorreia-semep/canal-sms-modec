@@ -1,0 +1,46 @@
+{
+  "versao": "2026-08-27",
+  "contrato": "Contrato MODEC",
+  "janelaAtendimento": "Segunda a sexta, das 08h às 17h",
+  "telefoneEmergencia": "PENDENTE-WA-05",
+
+  "whatsapp": {
+    "sms": {
+      "numero": "5521999999999",
+      "rotulo": "Equipe SMS Priner",
+      "_nota": "PENDENTE-WA-01 — número de testes. Trocar pelo oficial antes do piloto. Formato: 55 + DDD + número, só dígitos."
+    },
+    "enfermagem": {
+      "numero": null,
+      "rotulo": "Enfermagem",
+      "_nota": "PENDENTE-WA-02 — enquanto for null, o caminho de saúde mental não oferece botão de WhatsApp."
+    }
+  },
+
+  "materiais": {
+    "dds": {
+      "url": "https://PENDENTE-LINK-ONEDRIVE-DDS",
+      "_nota": "Pasta do OneDrive com os DDS. Link 'Qualquer pessoa com o link', sem expiração."
+    },
+    "acoes": {
+      "url": "https://PENDENTE-LINK-ONEDRIVE-ACOES",
+      "_nota": "PENDENTE-WA-03 — enquanto o texto oficial das 10 Ações não chegar, a página aponta para esta pasta."
+    }
+  },
+
+  "registro": {
+    "habilitado": false,
+    "endpoint": "/api/registrar",
+    "_nota": "Etapa 3. Com false, os formulários montam a mensagem e vão direto ao WhatsApp, sem protocolo."
+  },
+
+  "turnstile": {
+    "habilitado": false,
+    "siteKey": ""
+  },
+
+  "logo": {
+    "url": "https://picsum.photos/seed/priner/240/72",
+    "_nota": "PLACEHOLDER (Lorem Picsum). Trocar por assets/img/priner.svg antes do piloto e fechar a CSP no _headers."
+  }
+}

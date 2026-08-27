@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Falar com o SMS Priner — Canal SMS</title>
+<link rel="stylesheet" href="assets/css/estilo.css">
+</head>
+<body>
+
+<header class="topo">
+  <div class="container">
+    <img class="topo__logo" data-cfg-src="logo.url" src="" alt="Priner">
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="conteudo">
+    <h1>Falar com o SMS Priner</h1>
+    <p class="chamada">Dúvidas, sugestões e solicitações. Informe os dados abaixo para a equipe já chegar na conversa sabendo quem é você.</p>
+  </div>
+
+  <form class="painel"
+        data-caminho="ATENDIMENTO"
+        data-wa-destino="sms"
+        data-abertura="[CANAL SMS] Solicitação de atendimento"
+        novalidate>
+
+    <div class="campo">
+      <label for="nome">Seu nome completo</label>
+      <input id="nome" type="text" autocomplete="name" required
+             data-campo="nome" data-rotulo="Nome">
+    </div>
+
+    <div class="campo">
+      <label for="matricula">Matrícula</label>
+      <input id="matricula" type="text" inputmode="numeric" required
+             data-campo="matricula" data-rotulo="Matrícula">
+    </div>
+
+    <div class="campo">
+      <label for="setor">Setor ou função</label>
+      <input id="setor" type="text" required
+             data-campo="setor" data-rotulo="Setor">
+    </div>
+
+    <div class="campo">
+      <label for="assunto">Assunto
+        <span class="ajuda">Em uma frase, o que você precisa</span>
+      </label>
+      <textarea id="assunto" required
+                data-campo="assunto" data-rotulo="Assunto"></textarea>
+    </div>
+
+    <button class="botao" type="submit">Registrar e falar no WhatsApp</button>
+    <p class="status" role="status" aria-live="polite"></p>
+  </form>
+
+  <a class="voltar" href="index.html">&lsaquo; Voltar ao menu</a>
+
+</main>
+
+<footer class="rodape">
+  <div class="container">
+    <p><strong>Atendimento:</strong> <span data-cfg="janelaAtendimento">&nbsp;</span></p>
+    <p>Fora desse horário sua mensagem fica registrada e é respondida no próximo dia útil.</p>
+    <p>Priner · Canal SMS · versão <span data-cfg="versao">&nbsp;</span></p>
+  </div>
+</footer>
+
+<script src="assets/js/portal.js"></script>
+</body>
+</html>
