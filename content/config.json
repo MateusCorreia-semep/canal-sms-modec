@@ -2,42 +2,37 @@
   "versao": "2026-08-27",
   "janelaAtendimento": "Segunda a sexta, das 08h às 17h",
   "telefoneEmergencia": "PENDENTE-WA-05",
-
   "whatsapp": {
     "sms": {
-      "numero": "5521999999999",
+      "numero": "5531983710412",
       "rotulo": "Equipe SMS Priner",
-      "_nota": "PENDENTE-WA-01 — número de testes. Trocar pelo oficial antes do piloto. Formato: 55 + DDD + número, só dígitos."
+      "_nota": "PROVISÓRIO — número de teste. Trocar pelo oficial da equipe SMS antes do piloto (WA-01). Formato: 55 + DDD + número, só dígitos."
     },
     "enfermagem": {
-      "numero": null,
+      "numero": "5531983710412",
       "rotulo": "Enfermagem",
-      "_nota": "PENDENTE-WA-02 — enquanto for null, o caminho de saúde mental não oferece botão de WhatsApp."
+      "_nota": "PROVISÓRIO — mesmo número do TST, só para teste. Em produção precisa ser um número separado da enfermagem (WA-02): dado de saúde não pode cair na mesma caixa do TST."
     }
   },
-
   "materiais": {
     "dds": {
-      "url": "https://PENDENTE-LINK-ONEDRIVE-DDS",
-      "_nota": "Pasta do OneDrive com os DDS. Link 'Qualquer pessoa com o link', sem expiração."
+      "url": "https://semep1-my.sharepoint.com/:f:/g/personal/agbo0101009753_agbogroup_com/IgC7sGQkSNa2RquojBumGMfSARiD4OHr5svXz-HbK4oov9o?e=EJXkGt",
+      "_nota": "PROVISÓRIO — pasta única de teste. Separar a pasta do DDS antes do piloto."
     },
     "acoes": {
-      "url": "https://PENDENTE-LINK-ONEDRIVE-ACOES",
-      "_nota": "PENDENTE-WA-03 — enquanto o texto oficial das 10 Ações não chegar, a página aponta para esta pasta."
+      "url": "https://semep1-my.sharepoint.com/:f:/g/personal/agbo0101009753_agbogroup_com/IgC7sGQkSNa2RquojBumGMfSARiD4OHr5svXz-HbK4oov9o?e=EJXkGt",
+      "_nota": "PROVISÓRIO — mesma pasta do DDS. Separar antes do piloto e, quando o texto oficial das 10 Ações chegar (WA-03), o conteúdo passa a ser página própria."
     }
   },
-
   "registro": {
     "habilitado": false,
     "endpoint": "/api/registrar",
     "_nota": "Etapa 3. Com false, os formulários montam a mensagem e vão direto ao WhatsApp, sem protocolo."
   },
-
   "turnstile": {
     "habilitado": false,
     "siteKey": ""
   },
-
   "logo": {
     "url": "assets/img/Logo_Priner_RGB-01.png",
     "_nota": "Versão colorida, para o cabeçalho claro. O src já vem no HTML; este campo só serve para trocar a logo sem mexer nas páginas."
