@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="DDS do dia, Ações pela Vida, comunicação de emergências, atendimento e saúde mental — tudo em um lugar.">
+<meta name="description" content="DDS do dia, Ações pela Vida, comunicação de emergências, atendimento e saúde mental - tudo em um lugar.">
 
 <!-- Pré-visualização ao compartilhar o link (WhatsApp, Teams, LinkedIn).
-     ATENÇÃO: og:url e og:image precisam ser URLs absolutas — scrapers não resolvem
+     ATENÇÃO: og:url e og:image precisam ser URLs absolutas - scrapers não resolvem
      caminho relativo. Ao publicar em outro domínio, trocar https://canal-sms-modec.pages.dev em todas as páginas. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Canal SMS Modec">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:url" content="https://canal-sms-modec.pages.dev/index.html">
 <meta property="og:title" content="Canal SMS Modec">
-<meta property="og:description" content="DDS do dia, Ações pela Vida, comunicação de emergências, atendimento e saúde mental — tudo em um lugar.">
+<meta property="og:description" content="DDS do dia, Ações pela Vida, comunicação de emergências, atendimento e saúde mental - tudo em um lugar.">
 <meta property="og:image" content="https://canal-sms-modec.pages.dev/assets/img/og-canal-sms.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
@@ -32,10 +32,11 @@
 <header class="topo">
   <div class="container">
     <a class="marca" href="index.html">
-      <img class="marca__logo" src="assets/img/Logo_Priner_RGB-02.png"
+      <img class="marca__logo" src="assets/img/Logo_Priner_RGB-01.png"
            data-cfg-src="logo.url" alt="Priner" width="240" height="57">
-      <h1 class="marca__nome">Canal <span class="grifo">SMS</span></h1>
+      <h1 class="marca__nome">Canal de<span class="marca__sigla">SMS</span></h1>
     </a>
+    <p class="topo__lema">Segurança, Saúde e Meio Ambiente</p>
   </div>
 </header>
 
@@ -44,64 +45,72 @@
   <section class="aviso" role="alert">
     <p class="aviso__titulo">Este canal não substitui o resgate</p>
     <p>
-      Em emergência com risco à vida, acione primeiro a emergência da sua unidade:
+      Com risco à vida, acione primeiro a emergência da unidade:
       <strong data-cfg="telefoneEmergencia">&nbsp;</strong>.
-      Só depois registre o evento por aqui.
+      Este canal registra o evento — não aciona socorro.
     </p>
   </section>
 
+  <div class="faixa"><span class="faixa__texto">Menu interativo</span></div>
+
   <ul class="menu">
     <li>
-      <a class="card" href="#" data-cfg-href="materiais.dds.url" target="_blank" rel="noopener">
-        <span class="card__num">1</span>
-        <span class="card__texto">
-          <span class="card__titulo">DDS do dia</span>
-          <span class="card__desc">Tema e material do Diálogo Diário de Segurança</span>
-        </span>
-        <span class="card__seta" aria-hidden="true">&rsaquo;</span>
-      </a>
-    </li>
-    <li>
-      <a class="card" href="acoes-pela-vida.html">
-        <span class="card__num">2</span>
-        <span class="card__texto">
-          <span class="card__titulo">Ações pela Vida</span>
-          <span class="card__desc">As 10 ações que salvam vidas na Priner</span>
-        </span>
-        <span class="card__seta" aria-hidden="true">&rsaquo;</span>
-      </a>
-    </li>
-    <li>
       <a class="card" href="emergencia.html">
-        <span class="card__num">3</span>
+        <span class="card__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M12 10.5v3.5"/><path d="M12 17.4h.01"/></svg></span>
         <span class="card__texto">
-          <span class="card__titulo">Comunicar evento ou emergência</span>
-          <span class="card__desc">Registre o ocorrido e fale com o TST</span>
+          <span class="card__titulo">Registre seus desvios</span>
+          <span class="card__desc">Identificou algo fora do padrão? Registre aqui e nos ajude a prevenir acidentes.</span>
         </span>
-        <span class="card__seta" aria-hidden="true">&rsaquo;</span>
+        <span class="card__seta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span>
+      </a>
+    </li>
+    <li>
+      <a class="card card--claro" href="saude-mental.html">
+        <span class="card__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.4a8.1 8.1 0 0 1-8.7 8.1 8.7 8.7 0 0 1-3.4-.8L3.5 20.5l1.8-4.9a8.1 8.1 0 0 1-.8-3.5 8.1 8.1 0 0 1 8.1-8.1 8.1 8.1 0 0 1 7.9 7.4z"/><path d="M12.4 8.6v4.6"/><path d="M10.1 10.9h4.6"/></svg></span>
+        <span class="card__texto">
+          <span class="card__titulo">Fale com a saúde</span>
+          <span class="card__desc">Tire dúvidas, busque orientações e cuide do que mais importa: você!</span>
+        </span>
+        <span class="card__seta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span>
       </a>
     </li>
     <li>
       <a class="card" href="atendimento.html">
-        <span class="card__num">4</span>
+        <span class="card__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5a7.5 7.5 0 0 1 15 0"/><path d="M2.5 16.5h19"/><path d="M9.4 16.5V9.6"/><path d="M14.6 16.5V9.6"/></svg></span>
         <span class="card__texto">
-          <span class="card__titulo">Falar com o SMS Priner</span>
-          <span class="card__desc">Dúvidas, sugestões e solicitações</span>
+          <span class="card__titulo">Fale com o time da segurança</span>
+          <span class="card__desc">Dúvidas, sugestões ou necessidade de apoio? Fale com a gente.</span>
         </span>
-        <span class="card__seta" aria-hidden="true">&rsaquo;</span>
+        <span class="card__seta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span>
       </a>
     </li>
     <li>
-      <a class="card" href="saude-mental.html">
-        <span class="card__num">5</span>
+      <a class="card card--claro" href="#" data-cfg-href="materiais.dds.url" target="_blank" rel="noopener">
+        <span class="card__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3.5" width="18" height="12" rx="2"/><path d="M12 15.5v3"/><path d="M8 21h8"/><path d="M7.2 11.6l2.6-2.7 2.1 2 3.9-3.9"/></svg></span>
         <span class="card__texto">
-          <span class="card__titulo">Saúde mental e bem-estar</span>
-          <span class="card__desc">Como você está se sentindo hoje?</span>
+          <span class="card__titulo">DDS</span>
+          <span class="card__desc">Acesse os conteúdos dos Diálogos Diários de Segurança.</span>
         </span>
-        <span class="card__seta" aria-hidden="true">&rsaquo;</span>
+        <span class="card__seta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span>
+      </a>
+    </li>
+    <li>
+      <a class="card" href="acoes-pela-vida.html">
+        <span class="card__icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 9.2c0 5-8.6 10.3-8.6 10.3S3.4 14.2 3.4 9.2a4.5 4.5 0 0 1 8.6-1.9 4.5 4.5 0 0 1 8.6 1.9z"/></svg></span>
+        <span class="card__texto">
+          <span class="card__titulo">Ações pela Vida</span>
+          <span class="card__desc">Campanhas, iniciativas e boas práticas que promovem a vida e o bem-estar.</span>
+        </span>
+        <span class="card__seta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span>
       </a>
     </li>
   </ul>
+
+  <section class="selos">
+    <p class="selo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.7l7.5 3v6c0 4.5-3.2 8.2-7.5 9.6-4.3-1.4-7.5-5.1-7.5-9.6v-6z"/><path d="M8.8 11.9l2.3 2.3 4.1-4.4"/></svg><span>Segurança é valor. Vida é prioridade.</span></p>
+    <p class="selo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8.6" r="2.6"/><circle cx="16.4" cy="9.4" r="2.1"/><path d="M3.2 18.4a4.8 4.8 0 0 1 9.6 0"/><path d="M15 14.2a4.2 4.2 0 0 1 5.8 4.2"/></svg><span>Juntos somos mais fortes.</span></p>
+    <p class="selo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 4.2c0 8.4-4 12.6-9.3 12.6A4.7 4.7 0 0 1 6 12.1C6 6.9 11.6 4.9 20 4.2z"/><path d="M4.5 20.5c1.6-4.2 4.4-7.3 8.3-9.4"/></svg><span>Cuidar hoje, garantir o amanhã.</span></p>
+  </section>
 
 </main>
 

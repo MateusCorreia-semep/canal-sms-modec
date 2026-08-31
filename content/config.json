@@ -39,7 +39,7 @@
   },
 
   "logo": {
-    "url": "assets/img/Logo_Priner_RGB-02.png",
-    "_nota": "Versão para fundo escuro: wordmark branco + símbolo Verde Inovação. O src já vem no HTML; este campo só serve para trocar a logo sem mexer nas páginas."
+    "url": "assets/img/Logo_Priner_RGB-01.png",
+    "_nota": "Versão colorida, para o cabeçalho claro. O src já vem no HTML; este campo só serve para trocar a logo sem mexer nas páginas."
   }
 }

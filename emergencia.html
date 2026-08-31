@@ -6,13 +6,13 @@
 <meta name="description" content="Registre um evento de segurança e fale com o TST pelo WhatsApp. Este canal não substitui o acionamento do resgate.">
 
 <!-- Pré-visualização ao compartilhar o link (WhatsApp, Teams, LinkedIn).
-     ATENÇÃO: og:url e og:image precisam ser URLs absolutas — scrapers não resolvem
+     ATENÇÃO: og:url e og:image precisam ser URLs absolutas - scrapers não resolvem
      caminho relativo. Ao publicar em outro domínio, trocar https://canal-sms-modec.pages.dev em todas as páginas. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Canal SMS Modec">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:url" content="https://canal-sms-modec.pages.dev/emergencia.html">
-<meta property="og:title" content="Comunicar evento ou emergência - Canal SMS Modec">
+<meta property="og:title" content="Registre seus desvios - Canal SMS Modec">
 <meta property="og:description" content="Registre um evento de segurança e fale com o TST pelo WhatsApp. Este canal não substitui o acionamento do resgate.">
 <meta property="og:image" content="https://canal-sms-modec.pages.dev/assets/img/og-canal-sms.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Canal SMS Modec">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="noindex">
-<title>Comunicar evento ou emergência - Canal SMS Modec</title>
+<title>Registre seus desvios - Canal SMS Modec</title>
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <meta name="theme-color" content="#0B514F">
@@ -32,35 +32,36 @@
 <header class="topo">
   <div class="container">
     <a class="marca" href="index.html">
-      <img class="marca__logo" src="assets/img/Logo_Priner_RGB-02.png"
+      <img class="marca__logo" src="assets/img/Logo_Priner_RGB-01.png"
            data-cfg-src="logo.url" alt="Priner" width="240" height="57">
-      <span class="marca__nome">Canal <span class="grifo">SMS</span></span>
+      <span class="marca__nome">Canal de<span class="marca__sigla">SMS</span></span>
     </a>
+    <p class="topo__lema">Segurança, Saúde e Meio Ambiente</p>
   </div>
 </header>
 
 <main class="container">
 
-  <a class="voltar" href="index.html">&lsaquo; Voltar ao menu</a>
+  <a class="voltar" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Voltar ao menu</a>
 
   <section class="aviso" role="alert">
     <p class="aviso__titulo">Antes de continuar</p>
     <p>
       Se há risco à vida agora, <strong>acione o resgate da sua unidade</strong>:
       <strong data-cfg="telefoneEmergencia">&nbsp;</strong>.
-      Este formulário registra o evento — ele não aciona socorro.
+      Este formulário registra o evento - ele não aciona socorro.
     </p>
   </section>
 
   <div class="conteudo">
-    <h1>Comunicar evento ou emergência</h1>
-    <p class="chamada">Preencha os dados abaixo. Ao final, o WhatsApp abre com a mensagem pronta para você enviar ao TST.</p>
+    <h1>Registre seus desvios</h1>
+    <p class="chamada">Desvio, condição insegura, quase acidente ou acidente: registre aqui. Ao final, o WhatsApp abre com a mensagem pronta para você enviar ao TST.</p>
   </div>
 
   <form class="painel"
         data-caminho="EMERGENCIA"
         data-wa-destino="sms"
-        data-abertura="[CANAL SMS] Comunicação de evento / emergência"
+        data-abertura="[CANAL SMS] Registro de desvio ou evento"
         novalidate>
 
     <div class="campo">
@@ -114,6 +115,7 @@
 <footer class="rodape">
   <div class="container">
     <p><strong>Atendimento:</strong> <span data-cfg="janelaAtendimento">&nbsp;</span></p>
+    <p>Os dados informados são usados apenas para o tratamento da sua solicitação pela equipe de SMS da Priner.</p>
     <p>Priner · Canal SMS · versão <span data-cfg="versao">&nbsp;</span></p>
   </div>
 </footer>

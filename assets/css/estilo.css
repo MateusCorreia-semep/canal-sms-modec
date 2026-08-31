@@ -53,26 +53,26 @@ body > .rodape { flex: 0 0 auto; }
 
 /* ---------- Cabeçalho ---------- */
 
+/* Claro, como na peça de divulgação: logo colorida, "Canal de SMS" ao lado e
+   o filete Verde Inovação separando do conteúdo. Igual nas 5 páginas. */
 .topo {
-  background: var(--verde-tradicao);
-  color: var(--branco);
-  padding: 16px 0;
+  background: var(--branco);
+  padding: 16px 0 14px;
+  border-bottom: 3px solid var(--verde-inovacao);
 }
 
-/* Logo e nome do canal lado a lado, separados por um filete.
-   O bloco inteiro é link para a home — é o "voltar" que todo mundo tenta. */
 .marca {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   color: inherit;
   text-decoration: none;
 }
 
-.marca:focus-visible { outline: 3px solid var(--verde-inovacao); outline-offset: 4px; }
+.marca:focus-visible { outline: 3px solid var(--verde-tradicao); outline-offset: 4px; }
 
 .marca__logo {
-  height: 30px;
+  height: 32px;
   width: auto;
   display: block;
   flex: 0 0 auto;
@@ -80,27 +80,40 @@ body > .rodape { flex: 0 0 auto; }
 
 .marca__nome {
   margin: 0;
-  padding-left: 12px;
-  border-left: 1px solid rgba(255, 255, 255, .3);
-  font-size: 21px;
-  line-height: 1.15;
+  padding-left: 14px;
+  border-left: 2px solid #E0E5E5;
+  font-size: 12px;
+  line-height: 1;
   font-weight: bold;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--verde-tradicao);
   white-space: nowrap;
 }
 
-/* Telas bem estreitas (iPhone SE e afins): encolhe antes de deixar quebrar. */
-@media (max-width: 360px) {
-  .marca { gap: 8px; }
-  .marca__logo { height: 26px; }
-  .marca__nome { padding-left: 8px; font-size: 18px; }
+/* "SMS" funciona como assinatura do canal, não como texto corrido — por isso
+   pode ficar em Verde Inovação, que em corpo de texto não teria contraste. */
+.marca__sigla {
+  display: block;
+  margin-top: 1px;
+  font-size: 27px;
+  line-height: 1;
+  letter-spacing: .01em;
+  color: var(--verde-inovacao);
 }
 
-/* Grifo: sempre Verde Inovação ou Branco Transparência */
-.grifo {
-  background: var(--verde-inovacao);
-  color: var(--verde-tradicao);
-  padding: 0 6px;
+.topo__lema {
+  margin: 10px 0 0;
+  font-size: 13px;
   font-weight: bold;
+  color: var(--verde-tradicao);
+}
+
+@media (max-width: 360px) {
+  .marca { gap: 10px; }
+  .marca__logo { height: 28px; }
+  .marca__nome { padding-left: 10px; font-size: 11px; }
+  .marca__sigla { font-size: 23px; }
 }
 
 /* ---------- Aviso de segurança (RF15) ---------- */
@@ -109,66 +122,167 @@ body > .rodape { flex: 0 0 auto; }
   background: var(--alerta-fundo);
   border-left: 6px solid var(--alerta);
   border-radius: var(--raio);
-  padding: 14px 16px;
-  margin: 20px 0;
+  padding: 12px 14px;
+  margin: 18px 0 0;
 }
 
 .aviso__titulo {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   color: var(--alerta);
-  font-size: 16px;
+  font-size: 13px;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: .02em;
 }
 
-.aviso p { margin: 0; font-size: 15px; }
+.aviso p { margin: 0; font-size: 14px; line-height: 1.45; }
 
 .aviso a { color: var(--alerta); font-weight: bold; }
 
+/* ---------- Faixa "Menu interativo" ---------- */
+
+.faixa {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0 14px;
+}
+
+.faixa::before,
+.faixa::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: #D9E0E0;
+}
+
+.faixa__texto {
+  flex: 0 0 auto;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: var(--verde-tradicao);
+  color: var(--branco);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
 /* ---------- Cards do menu ---------- */
 
-.menu { list-style: none; margin: 0 0 28px; padding: 0; }
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
 
-.menu li { margin-bottom: 12px; }
+@media (min-width: 640px) {
+  .menu { grid-template-columns: 1fr 1fr; }
+}
 
 .card {
   display: flex;
   align-items: center;
   gap: 14px;
+  height: 100%;
   min-height: var(--toque-min);
-  padding: 16px;
+  padding: 14px;
   background: var(--branco);
-  border: 1px solid #DDE2E2;
-  border-radius: var(--raio);
+  border: 1px solid #E4E8E8;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(11, 81, 79, .07);
   text-decoration: none;
   color: var(--texto);
 }
 
-.card:active { background: var(--cinza-fundo); }
+.card:active { background: #F7F9F9; }
 
 .card:focus-visible { outline: 3px solid var(--verde-tradicao); outline-offset: 2px; }
 
-.card__num {
+/* Os dois verdes se alternam de card em card, como na peça. */
+.card__icone {
   flex: 0 0 auto;
-  width: 40px;
-  height: 40px;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--verde-tradicao);
+  color: var(--branco);
+}
+
+.card__icone svg { width: 28px; height: 28px; display: block; }
+
+.card__seta {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
   display: grid;
   place-items: center;
   border-radius: 50%;
   background: var(--verde-tradicao);
-  color: var(--verde-inovacao);
-  font-size: 19px;
-  font-weight: bold;
+  color: var(--branco);
 }
 
-.card__texto { flex: 1 1 auto; }
+.card__seta svg { width: 16px; height: 16px; display: block; }
 
-.card__titulo { display: block; font-size: 18px; font-weight: bold; color: var(--verde-tradicao); }
+.card--claro .card__icone,
+.card--claro .card__seta {
+  background: var(--verde-inovacao);
+  color: var(--verde-tradicao);
+}
 
-.card__desc { display: block; font-size: 14px; color: var(--cinza-solidez); }
+.card__texto { flex: 1 1 auto; min-width: 0; }
 
-.card__seta { flex: 0 0 auto; color: var(--verde-tradicao); font-size: 22px; }
+.card__titulo {
+  display: block;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 1.25;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+  color: var(--verde-tradicao);
+}
+
+.card__desc {
+  display: block;
+  margin-top: 3px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--cinza-solidez);
+}
+
+/* ---------- Selos de rodapé ---------- */
+
+.selos {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0 0;
+  padding: 16px;
+  background: var(--branco);
+  border: 1px solid #E4E8E8;
+  border-radius: 14px;
+}
+
+@media (min-width: 640px) {
+  .selos { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+}
+
+.selo {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--verde-tradicao);
+}
+
+.selo svg { flex: 0 0 auto; width: 26px; height: 26px; display: block; }
 
 /* ---------- Conteúdo interno ---------- */
 
@@ -195,6 +309,8 @@ body > .rodape { flex: 0 0 auto; }
   font-weight: bold;
   text-decoration: none;
 }
+
+.voltar svg { width: 14px; height: 14px; display: block; }
 
 .voltar:active { background: var(--cinza-fundo); }
 
@@ -282,6 +398,16 @@ body > .rodape { flex: 0 0 auto; }
 .botao--secundario {
   color: var(--branco);
   background: var(--verde-tradicao);
+}
+
+/* Aviso específico do formulário. Antes essas frases moravam no rodapé, o que
+   fazia o rodapé mudar de altura de página para página. */
+.nota {
+  margin: 0 0 16px;
+  padding-top: 14px;
+  border-top: 1px solid #E4E8E8;
+  color: var(--cinza-solidez);
+  font-size: 14px;
 }
 
 .status { margin: 12px 0 0; font-size: 15px; min-height: 1.5em; }
