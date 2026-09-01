@@ -25,13 +25,17 @@
     }
   },
   "registro": {
-    "habilitado": false,
+    "habilitado": true,
     "endpoint": "/api/registrar",
-    "_nota": "Etapa 3. Com false, os formulários montam a mensagem e vão direto ao WhatsApp, sem protocolo."
+    "caminhos": [
+      "EMERGENCIA"
+    ],
+    "_nota": "Só os caminhos listados em 'caminhos' passam pelo /api/registrar. Os demais vão direto ao WhatsApp, sem protocolo e sem mensagem de erro. Acrescente ATENDIMENTO e SAUDE conforme os fluxos forem criados e as URLs cadastradas no Pages."
   },
   "turnstile": {
-    "habilitado": false,
-    "siteKey": ""
+    "habilitado": true,
+    "siteKey": "0x4AAAAAAEkAbikPkoQFy-bC",
+    "_nota": "Cole aqui a site key do Turnstile. Enquanto estiver vazia o widget não é injetado e a Function recusa o registro (falha fechada) — o portal segue ao WhatsApp sem protocolo. A secret vai em Pages > Settings > Environment variables como TURNSTILE_SECRET, nunca neste arquivo, que é público."
   },
   "logo": {
     "url": "assets/img/Logo_Priner_RGB-01.png",

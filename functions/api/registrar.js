@@ -32,7 +32,10 @@ function json(dados, status = 200) {
 }
 
 async function turnstileValido(env, token, ip) {
-  if (!env.TURNSTILE_SECRET) return true; // Turnstile ainda não ligado
+  // Falha fechada: sem o segredo configurado, o endpoint recusa em vez de aceitar.
+  // O portal trata a recusa seguindo ao WhatsApp sem protocolo, então o pior caso
+  // é perder o registro — nunca deixar a lista aberta a qualquer POST da internet.
+  if (!env.TURNSTILE_SECRET) return false;
   if (!token) return false;
 
   const corpo = new FormData();
@@ -74,6 +77,7 @@ export async function onRequestPost({ request, env }) {
 
   const ip = request.headers.get('CF-Connecting-IP');
   if (!(await turnstileValido(env, corpo.turnstileToken, ip))) {
+    if (!env.TURNSTILE_SECRET) return json({ erro: 'turnstile_nao_configurado' }, 503);
     return json({ erro: 'verificacao_falhou' }, 403);
   }
 

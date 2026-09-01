@@ -3,7 +3,8 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), camera=(), microphone=(), interest-cohort=()
-  Content-Security-Policy: default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; script-src 'self' https://challenges.cloudflare.com; style-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; form-action 'self'; frame-ancestors 'none'; base-uri 'self'
 
 # Todos os recursos são servidos do próprio domínio — nenhuma exceção externa.
-# Ao ligar o Turnstile (Etapa 3), acrescentar https://challenges.cloudflare.com em script-src e frame-src.
+# challenges.cloudflare.com está liberado para o Turnstile. Inerte enquanto a site key
+# não estiver no config: sem ela o portal não injeta o widget nem carrega o script.

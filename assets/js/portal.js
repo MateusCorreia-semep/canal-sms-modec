@@ -106,9 +106,9 @@
     return dados;
   }
 
-  function registrar(caminho, dados) {
+  function registrar(caminho, dados, form) {
     var corpo = { caminho: caminho, dados: dados };
-    var tokenEl = document.querySelector('[name="cf-turnstile-response"]');
+    var tokenEl = form.querySelector('[name="cf-turnstile-response"]');
     if (tokenEl) corpo.turnstileToken = tokenEl.value;
 
     return fetch(cfg.registro.endpoint, {
@@ -130,6 +130,15 @@
     var partes = regra.split('=');
     var marcado = form.querySelector('[data-campo="' + partes[0] + '"]:checked');
     return !!marcado && marcado.value === partes[1];
+  }
+
+  /* Um caminho só passa pelo /api/registrar se o fluxo dele existir. Sem a lista,
+     os caminhos ainda sem fluxo mostrariam "não foi possível registrar" à toa. */
+  function registroLigado(caminho) {
+    var r = cfg.registro;
+    if (!r || !r.habilitado) return false;
+    if (Array.isArray(r.caminhos)) return r.caminhos.indexOf(caminho) !== -1;
+    return true;
   }
 
   function ligarFormulario(form) {
@@ -159,12 +168,12 @@
         window.location.href = linkWhatsApp(alvo.numero, mensagem);
       };
 
-      if (!cfg.registro || !cfg.registro.habilitado) {
+      if (!registroLigado(caminho)) {
         seguir(null);
         return;
       }
 
-      registrar(caminho, coletarDados(form))
+      registrar(caminho, coletarDados(form), form)
         .then(seguir)
         .catch(function () {
           // Regra do projeto: falha de integração nunca bloqueia o atendimento.
@@ -225,11 +234,41 @@
     resumo.addEventListener('click', abrir);
   }
 
+  /* ---------- Turnstile ---------- */
+
+  /* O widget é injetado por aqui, e não escrito no HTML, para a site key morar
+     só no config e o portal não quebrar enquanto ela não existir. */
+  function ligarTurnstile() {
+    var t = cfg.turnstile;
+    if (!t || !t.habilitado || !t.siteKey) return;
+
+    var formularios = document.querySelectorAll('form[data-caminho]');
+    if (!formularios.length) return;
+
+    formularios.forEach(function (form) {
+      var botao = form.querySelector('button[type="submit"]');
+      if (!botao) return;
+      var caixa = document.createElement('div');
+      caixa.className = 'cf-turnstile turnstile';
+      caixa.setAttribute('data-sitekey', t.siteKey);
+      caixa.setAttribute('data-appearance', 'interaction-only');
+      caixa.setAttribute('data-language', 'pt-br');
+      form.insertBefore(caixa, botao);
+    });
+
+    var script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+
   /* ---------- inicialização ---------- */
 
   function iniciar() {
     document.querySelectorAll('form[data-caminho]').forEach(ligarFormulario);
     document.querySelectorAll('.opcoes[data-retrair]').forEach(ligarRetratil);
+    ligarTurnstile();
   }
 
   fetch('content/config.json', { cache: 'no-cache' })

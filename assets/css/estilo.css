@@ -441,6 +441,8 @@ body > .rodape { flex: 0 0 auto; }
   font-size: 14px;
 }
 
+.turnstile { margin: 0 0 14px; }
+
 .status { margin: 12px 0 0; font-size: 15px; min-height: 1.5em; }
 
 .status--erro { color: var(--alerta); }
