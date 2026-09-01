@@ -242,7 +242,11 @@
     var t = cfg.turnstile;
     if (!t || !t.habilitado || !t.siteKey) return;
 
-    var formularios = document.querySelectorAll('form[data-caminho]');
+    // Só nos formulários que realmente chamam a API. Nos demais o widget seria
+    // um script externo carregado à toa, com erro no console e nada a proteger.
+    var formularios = [].filter.call(
+      document.querySelectorAll('form[data-caminho]'),
+      function (form) { return registroLigado(form.getAttribute('data-caminho')); });
     if (!formularios.length) return;
 
     formularios.forEach(function (form) {

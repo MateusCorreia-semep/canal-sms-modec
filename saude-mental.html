@@ -46,13 +46,12 @@
 
   <div class="conteudo">
     <h1>Como você está se sentindo hoje?</h1>
-    <p class="chamada">Só a equipe de enfermagem vê esta resposta. O contato só acontece se você pedir.</p>
+    <p class="chamada">Sua mensagem vai direto para a equipe de enfermagem, pelo WhatsApp.</p>
   </div>
 
   <form class="painel"
         data-caminho="SAUDE"
         data-wa-destino="enfermagem"
-        data-wa-condicao="desejaContato=Sim"
         data-abertura="[CANAL SMS] Saúde mental e bem-estar"
         novalidate>
 
@@ -78,31 +77,22 @@
       <textarea id="comentario" data-campo="comentario" data-rotulo="Comentário"></textarea>
     </div>
 
-    <div class="campo">
-      <label>Gostaria de entrar em contato com a enfermagem</label>
-      <div class="opcoes">
-        <label class="opcao"><input type="radio" name="desejaContato" value="Sim" required data-campo="desejaContato" data-rotulo="Deseja contato"> Sim, quero conversar</label>
-        <label class="opcao"><input type="radio" name="desejaContato" value="Não" data-campo="desejaContato" data-rotulo="Deseja contato"> Não, só quis registrar</label>
-      </div>
-    </div>
 
     <div class="campo">
       <label for="nome">Seu nome completo</label>
       <input id="nome" type="text" autocomplete="name" required data-campo="nome" data-rotulo="Nome">
     </div>
 
-    <p class="nota">Dado de saúde é dado sensível: o acesso a estes registros é restrito à equipe de enfermagem, conforme a LGPD.</p>
+    <p class="nota">Nada fica gravado no portal: o que você escrever segue apenas para a conversa com a enfermagem.</p>
 
-    <button class="botao" type="submit">Enviar</button>
+    <button class="botao" type="submit">Falar com a enfermagem</button>
     <p class="status" role="status" aria-live="polite"></p>
   </form>
 
   <div class="painel oculto" id="confirmacao">
     <h2 style="margin-top:0;color:var(--verde-tradicao);font-size:20px;">Obrigado por contar como você está</h2>
-    <p>Sua resposta foi registrada e só a equipe de enfermagem tem acesso a ela.</p>
-    <p>Protocolo: <strong data-protocolo>-</strong></p>
-    <p>Se você pediu contato, a enfermagem vai te procurar dentro do horário de atendimento.
-       Se precisar de ajuda agora, procure o TST ou a liderança da sua unidade.</p>
+    <p>No momento não foi possível abrir a conversa com a enfermagem por aqui.
+       Procure a equipe de SMS ou a liderança da sua unidade.</p>
     <a class="botao botao--secundario" href="index.html">Voltar ao menu</a>
   </div>
 
