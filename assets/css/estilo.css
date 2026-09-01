@@ -431,16 +431,6 @@ body > .rodape { flex: 0 0 auto; }
   background: var(--verde-tradicao);
 }
 
-/* Aviso específico do formulário. Antes essas frases moravam no rodapé, o que
-   fazia o rodapé mudar de altura de página para página. */
-.nota {
-  margin: 0 0 16px;
-  padding-top: 14px;
-  border-top: 1px solid #E4E8E8;
-  color: var(--cinza-solidez);
-  font-size: 14px;
-}
-
 .turnstile { margin: 0 0 14px; }
 
 .status { margin: 12px 0 0; font-size: 15px; min-height: 1.5em; }

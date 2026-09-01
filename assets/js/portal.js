@@ -115,9 +115,11 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(corpo)
+
     }).then(function (resp) {
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       return resp.json();
+      
     }).then(function (json) {
       return json.protocolo || null;
     });
