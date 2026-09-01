@@ -4,12 +4,12 @@
   "telefoneEmergencia": "PENDENTE-WA-05",
   "whatsapp": {
     "sms": {
-      "numero": "5531983710412",
+      "numero": "5522998756534",
       "rotulo": "Equipe SMS Priner",
       "_nota": "PROVISÓRIO — número de teste. Trocar pelo oficial da equipe SMS antes do piloto (WA-01). Formato: 55 + DDD + número, só dígitos."
     },
     "enfermagem": {
-      "numero": "5531983710412",
+      "numero": "5522998007682",
       "rotulo": "Enfermagem",
       "_nota": "PROVISÓRIO — mesmo número do TST, só para teste. Em produção precisa ser um número separado da enfermagem (WA-02): dado de saúde não pode cair na mesma caixa do TST."
     }

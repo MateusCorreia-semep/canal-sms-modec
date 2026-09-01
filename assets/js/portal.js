@@ -19,8 +19,11 @@
   }
 
   function linkWhatsApp(numero, texto) {
-    return 'https://wa.me/' + String(numero).replace(/\D/g, '') +
-           '?text=' + encodeURIComponent(texto);
+    var digitos = String(numero).replace(/\D/g, '');
+    // Canal só atende Brasil: 55 + DDD + número = 12 ou 13 dígitos. Se vier sem
+    // o código do país, o wa.me abre uma conversa errada em vez de dar erro.
+    if (digitos.length === 10 || digitos.length === 11) digitos = '55' + digitos;
+    return 'https://wa.me/' + digitos + '?text=' + encodeURIComponent(texto);
   }
 
   function avisarPendente(el) {
