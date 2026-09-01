@@ -189,10 +189,44 @@
     if (botao) { botao.disabled = false; botao.textContent = rotuloBotao; }
   }
 
+  /* ---------- grupos de opção que retraem ---------- */
+
+  /* Depois de escolher, as opções somem e fica só a escolha, com uma seta para
+     reabrir. Encurta o formulário sem esconder o que a pessoa respondeu. */
+  function ligarRetratil(grupo) {
+    var campo = grupo.closest('.campo');
+    var resumo = campo && campo.querySelector('[data-resumo]');
+    if (!resumo) return;
+
+    var valor = resumo.querySelector('.resumo__valor');
+
+    function abrir() {
+      grupo.classList.remove('oculto');
+      resumo.classList.add('oculto');
+      resumo.setAttribute('aria-expanded', 'true');
+      var marcado = grupo.querySelector('input:checked') || grupo.querySelector('input');
+      if (marcado) marcado.focus();
+    }
+
+    function fechar(escolha) {
+      valor.textContent = escolha;
+      grupo.classList.add('oculto');
+      resumo.classList.remove('oculto');
+      resumo.setAttribute('aria-expanded', 'false');
+    }
+
+    grupo.addEventListener('change', function (ev) {
+      if (ev.target.checked) fechar(ev.target.value);
+    });
+
+    resumo.addEventListener('click', abrir);
+  }
+
   /* ---------- inicialização ---------- */
 
   function iniciar() {
     document.querySelectorAll('form[data-caminho]').forEach(ligarFormulario);
+    document.querySelectorAll('.opcoes[data-retrair]').forEach(ligarRetratil);
   }
 
   fetch('content/config.json', { cache: 'no-cache' })

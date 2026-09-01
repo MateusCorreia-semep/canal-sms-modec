@@ -46,7 +46,7 @@
 
   <div class="conteudo">
     <h1>Como você está se sentindo hoje?</h1>
-    <p class="chamada">Só a equipe de enfermagem vê esta resposta. Seu nome é opcional, e o contato só acontece se você pedir.</p>
+    <p class="chamada">Só a equipe de enfermagem vê esta resposta. O contato só acontece se você pedir.</p>
   </div>
 
   <form class="painel"
@@ -57,14 +57,18 @@
         novalidate>
 
     <div class="campo">
-      <label>Hoje eu estou me sentindo</label>
-      <div class="opcoes">
+      <label id="rotulo-sentimento">Hoje eu estou me sentindo</label>
+      <div class="opcoes" data-retrair role="radiogroup" aria-labelledby="rotulo-sentimento">
         <label class="opcao"><input type="radio" name="sentimento" value="Bem" required data-campo="sentimento" data-rotulo="Sentimento"> Bem</label>
         <label class="opcao"><input type="radio" name="sentimento" value="Mais ou menos" data-campo="sentimento" data-rotulo="Sentimento"> Mais ou menos</label>
         <label class="opcao"><input type="radio" name="sentimento" value="Cansado(a)" data-campo="sentimento" data-rotulo="Sentimento"> Cansado(a)</label>
         <label class="opcao"><input type="radio" name="sentimento" value="Preocupado(a)" data-campo="sentimento" data-rotulo="Sentimento"> Preocupado(a)</label>
         <label class="opcao"><input type="radio" name="sentimento" value="Não estou bem" data-campo="sentimento" data-rotulo="Sentimento"> Não estou bem</label>
       </div>
+      <button type="button" class="resumo oculto" data-resumo aria-expanded="false">
+        <span class="resumo__valor"></span>
+        <span class="resumo__seta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></span>
+      </button>
     </div>
 
     <div class="campo">
@@ -75,7 +79,7 @@
     </div>
 
     <div class="campo">
-      <label>Você gostaria que a enfermagem entrasse em contato?</label>
+      <label>Gostaria de entrar em contato com a enfermagem</label>
       <div class="opcoes">
         <label class="opcao"><input type="radio" name="desejaContato" value="Sim" required data-campo="desejaContato" data-rotulo="Deseja contato"> Sim, quero conversar</label>
         <label class="opcao"><input type="radio" name="desejaContato" value="Não" data-campo="desejaContato" data-rotulo="Deseja contato"> Não, só quis registrar</label>
@@ -83,10 +87,8 @@
     </div>
 
     <div class="campo">
-      <label for="nome">Seu nome
-        <span class="ajuda">Opcional - mas sem ele a enfermagem não consegue te procurar</span>
-      </label>
-      <input id="nome" type="text" autocomplete="name" data-campo="nome" data-rotulo="Nome">
+      <label for="nome">Seu nome completo</label>
+      <input id="nome" type="text" autocomplete="name" required data-campo="nome" data-rotulo="Nome">
     </div>
 
     <p class="nota">Dado de saúde é dado sensível: o acesso a estes registros é restrito à equipe de enfermagem, conforme a LGPD.</p>
