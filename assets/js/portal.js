@@ -152,9 +152,16 @@
 
     form.addEventListener('submit', function (ev) {
       ev.preventDefault();
+      // A partir daqui os campos podem mostrar erro. Antes da primeira tentativa
+      // de envio, marcar campo inválido enquanto a pessoa digita é hostil.
+      form.classList.add('form-validado');
       if (!form.reportValidity()) return;
 
-      if (botao) { botao.disabled = true; botao.textContent = 'Registrando…'; }
+      if (botao) {
+        botao.disabled = true;
+        botao.textContent = 'Registrando…';
+        botao.classList.add('botao--carregando');
+      }
       if (status) { status.className = 'status'; status.textContent = ''; }
 
       var seguir = function (protocolo) {
@@ -200,7 +207,11 @@
       return;
     }
     if (status) status.textContent = 'Registro concluído. Obrigado.';
-    if (botao) { botao.disabled = false; botao.textContent = rotuloBotao; }
+    if (botao) {
+      botao.disabled = false;
+      botao.textContent = rotuloBotao;
+      botao.classList.remove('botao--carregando');
+    }
   }
 
   /* ---------- grupos de opção que retraem ---------- */
@@ -269,8 +280,6 @@
     document.head.appendChild(script);
   }
 
-  /* ---------- inicialização ---------- */
-
   function iniciar() {
     document.querySelectorAll('form[data-caminho]').forEach(ligarFormulario);
     document.querySelectorAll('.opcoes[data-retrair]').forEach(ligarRetratil);
@@ -282,9 +291,12 @@
     .then(function (json) {
       cfg = json;
       aplicar();
+      document.documentElement.classList.add('cfg-pronto');
       iniciar();
     })
     .catch(function () {
+      // Mesmo na falha: nada pode ficar preso em opacity 0 esperando o config.
+      document.documentElement.classList.add('cfg-pronto');
       var alvo = document.querySelector('.container');
       if (!alvo) return;
       var erro = document.createElement('div');
