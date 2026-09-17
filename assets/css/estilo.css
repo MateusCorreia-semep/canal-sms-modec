@@ -585,6 +585,44 @@ body > .rodape { flex: 0 0 auto; }
 
 html:not(.cfg-pronto) [data-cfg] { opacity: 0; }
 
+/* ---------- Transição entre páginas ---------- */
+
+/* View Transitions cross-document: o navegador tira um retrato da página que sai
+   e da que entra e anima entre os dois. Sem JavaScript e sem interceptar clique.
+   Chrome/Edge 126+ e Safari 18.2+; onde não houver suporte a navegação acontece
+   como hoje, sem quebrar nada. Só vale para navegação de mesma origem — os links
+   do OneDrive e do wa.me saem do site e não entram na transição. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Cabeçalho e rodapé são idênticos nas 5 páginas. Nomeados, viram grupos próprios
+   e permanecem parados enquanto o conteúdo troca — a marca não pisca. */
+.topo { view-transition-name: topo; }
+.rodape { view-transition-name: rodape; }
+
+/* Curto de propósito: num canal que atende relato de desvio, transição longa
+   é atrito, não charme. Sai rápido, entra um pouco mais devagar. */
+::view-transition-old(root) {
+  animation: 110ms cubic-bezier(.4, 0, 1, 1) both pagina-sai;
+}
+
+::view-transition-new(root) {
+  animation: 180ms cubic-bezier(0, 0, .2, 1) both pagina-entra;
+}
+
+@keyframes pagina-sai {
+  to { opacity: 0; transform: translateY(-6px); }
+}
+
+@keyframes pagina-entra {
+  from { opacity: 0; transform: translateY(10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+
 /* ---------- Movimento reduzido ---------- */
 
 /* Quem pediu menos movimento no sistema recebe tudo estático — sem exceção e
