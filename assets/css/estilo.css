@@ -6,7 +6,8 @@
   --verde-tradicao: #0B514F;
   --verde-inovacao: #97D700; /* mesmo verde do arquivo oficial da logo (Pantone 375C) */
   --branco: #FFFFFF;
-  --cinza-solidez: #808080;
+  --cinza-solidez: #808080;      /* cor de marca: usar em traço e apoio, não em texto */
+  --cinza-texto: #5F6B6B;        /* texto secundário: 5,5:1 sobre branco, 5,0:1 sobre o fundo */
   --cinza-fundo: #F2F4F4;
   --texto: #1A1A1A;
 
@@ -17,6 +18,14 @@
 
   --raio: 10px;
   --toque-min: 56px; /* alvo de toque para uso com luva */
+
+  /* Sombra em duas camadas: uma curta e opaca que assenta o card na
+     superfície, outra longa e difusa que dá a altura. */
+  --sombra: 0 1px 2px rgba(11, 81, 79, .07), 0 4px 14px rgba(11, 81, 79, .06);
+  --sombra-alta: 0 2px 4px rgba(11, 81, 79, .09), 0 10px 26px rgba(11, 81, 79, .10);
+  --sombra-baixa: 0 1px 2px rgba(11, 81, 79, .10);
+
+  --transicao: 170ms cubic-bezier(.2, .7, .3, 1);
 }
 
 * { box-sizing: border-box; }
@@ -38,6 +47,23 @@ body {
   color: var(--texto);
   background: var(--cinza-fundo);
 }
+
+/* Símbolo da Priner como marca-d'água, recortado do arquivo oficial da logo.
+   Fixo e a 4% para não competir com o conteúdo nem rolar junto com ele. */
+body::before {
+  content: "";
+  position: fixed;
+  right: -40px;
+  bottom: -20px;
+  width: 320px;
+  height: 222px;
+  background: url("../img/grafismo.png") no-repeat right bottom / contain;
+  opacity: .04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body > * { position: relative; z-index: 1; }
 
 body > main { flex: 1 0 auto; }
 
@@ -148,12 +174,16 @@ body > .rodape { flex: 0 0 auto; }
   margin: 22px 0 14px;
 }
 
+/* Filetes em Verde Inovação: mesma cor da borda do cabeçalho, criando
+   repetição visual sem desenhar nada por cima da pílula. */
 .faixa::before,
 .faixa::after {
   content: "";
   flex: 1 1 auto;
-  height: 1px;
-  background: #D9E0E0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--verde-inovacao);
+  opacity: .55;
 }
 
 .faixa__texto {
@@ -161,6 +191,7 @@ body > .rodape { flex: 0 0 auto; }
   padding: 9px 18px;
   border-radius: 999px;
   background: var(--verde-tradicao);
+  box-shadow: var(--sombra-baixa);
   color: var(--branco);
   font-size: 12px;
   font-weight: bold;
@@ -192,12 +223,26 @@ body > .rodape { flex: 0 0 auto; }
   background: var(--branco);
   border: 1px solid #E4E8E8;
   border-radius: 14px;
-  box-shadow: 0 1px 3px rgba(11, 81, 79, .07);
+  box-shadow: var(--sombra);
   text-decoration: none;
   color: var(--texto);
+  transition: box-shadow var(--transicao), transform var(--transicao),
+              border-color var(--transicao);
 }
 
-.card:active { background: #F7F9F9; }
+@media (hover: hover) {
+  .card:hover { box-shadow: var(--sombra-alta); border-color: #CFD8D8; }
+  .card:hover .card__seta { transform: translateX(3px); }
+}
+
+/* Afunda ao toque: devolve a sensação de objeto, que é o que falta num
+   card que hoje só troca de cor. */
+.card:active {
+  transform: translateY(1px);
+  box-shadow: var(--sombra-baixa);
+}
+
+.card:focus-visible .card__seta { transform: translateX(3px); }
 
 .card:focus-visible { outline: 3px solid var(--verde-tradicao); outline-offset: 2px; }
 
@@ -224,6 +269,7 @@ body > .rodape { flex: 0 0 auto; }
   border-radius: 50%;
   background: var(--verde-tradicao);
   color: var(--branco);
+  transition: transform var(--transicao);
 }
 
 .card__seta svg { width: 16px; height: 16px; display: block; }
@@ -240,7 +286,7 @@ body > .rodape { flex: 0 0 auto; }
   display: block;
   font-size: 15px;
   font-weight: bold;
-  line-height: 1.25;
+  line-height: 1.2;
   letter-spacing: .01em;
   text-transform: uppercase;
   color: var(--verde-tradicao);
@@ -248,10 +294,10 @@ body > .rodape { flex: 0 0 auto; }
 
 .card__desc {
   display: block;
-  margin-top: 3px;
+  margin-top: 4px;
   font-size: 13px;
-  line-height: 1.4;
-  color: var(--cinza-solidez);
+  line-height: 1.45;
+  color: var(--cinza-texto);
 }
 
 /* ---------- Selos de rodapé ---------- */
@@ -264,6 +310,7 @@ body > .rodape { flex: 0 0 auto; }
   background: var(--branco);
   border: 1px solid #E4E8E8;
   border-radius: 14px;
+  box-shadow: var(--sombra);
 }
 
 @media (min-width: 640px) {
@@ -290,7 +337,7 @@ body > .rodape { flex: 0 0 auto; }
 
 .conteudo h1 { margin: 0 0 4px; font-size: 24px; color: var(--verde-tradicao); }
 
-.conteudo .chamada { margin: 0 0 20px; color: var(--cinza-solidez); }
+.conteudo .chamada { margin: 0 0 20px; color: var(--cinza-texto); }
 
 /* Fica logo abaixo do cabeçalho: alcançável sem rolar a página até o fim,
    que é onde ele estava antes. */
@@ -308,7 +355,16 @@ body > .rodape { flex: 0 0 auto; }
   font-size: 15px;
   font-weight: bold;
   text-decoration: none;
+  transition: background-color var(--transicao), border-color var(--transicao),
+              transform var(--transicao);
 }
+
+@media (hover: hover) {
+  .voltar:hover { border-color: #C2CCCC; }
+  .voltar:hover svg { transform: translateX(-2px); }
+}
+
+.voltar svg { transition: transform var(--transicao); }
 
 .voltar svg { width: 14px; height: 14px; display: block; }
 
@@ -319,9 +375,10 @@ body > .rodape { flex: 0 0 auto; }
 .painel {
   background: var(--branco);
   border: 1px solid #DDE2E2;
-  border-radius: var(--raio);
+  border-radius: 14px;
   padding: 18px 16px;
   margin-bottom: 16px;
+  box-shadow: var(--sombra);
 }
 
 /* ---------- Formulários ---------- */
@@ -332,7 +389,7 @@ body > .rodape { flex: 0 0 auto; }
 
 .campo > label .ajuda { font-weight: normal; }
 
-.campo .ajuda { display: block; font-weight: normal; color: var(--cinza-solidez); font-size: 13px; }
+.campo .ajuda { display: block; font-weight: normal; color: var(--cinza-texto); font-size: 13px; }
 
 .campo input:not([type="radio"]),
 .campo select,
@@ -370,6 +427,7 @@ body > .rodape { flex: 0 0 auto; }
   border: 2px solid #C6CCCC;
   border-radius: var(--raio);
   cursor: pointer;
+  transition: border-color var(--transicao), background-color var(--transicao);
 }
 
 .opcao input { width: 24px; height: 24px; margin: 0; accent-color: var(--verde-tradicao); }
@@ -392,6 +450,14 @@ body > .rodape { flex: 0 0 auto; }
   border: 2px solid var(--verde-tradicao);
   border-radius: var(--raio);
   cursor: pointer;
+  transition: background-color var(--transicao);
+}
+
+.resumo__seta svg { transition: transform var(--transicao); }
+
+@media (hover: hover) {
+  .resumo:hover { background: #E7F2F0; }
+  .resumo:hover .resumo__seta svg { transform: translateY(2px); }
 }
 
 .resumo__valor { flex: 1 1 auto; font-weight: bold; color: var(--verde-tradicao); }
@@ -422,7 +488,18 @@ body > .rodape { flex: 0 0 auto; }
   text-align: center;
   text-decoration: none;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--sombra-baixa);
+  transition: transform var(--transicao), box-shadow var(--transicao),
+              filter var(--transicao);
 }
+
+@media (hover: hover) {
+  .botao:hover { filter: brightness(1.04); box-shadow: var(--sombra); }
+}
+
+.botao:active { transform: translateY(1px); box-shadow: none; }
 
 .botao[disabled] { opacity: .6; cursor: progress; }
 
@@ -458,3 +535,110 @@ body > .rodape { flex: 0 0 auto; }
 .lista-simples { padding-left: 20px; }
 
 .lista-simples li { margin-bottom: 8px; }
+
+/* ---------- Estado de validação (item 6) ---------- */
+
+/* A borda de erro só aparece depois da primeira tentativa de envio: marcar
+   campo como inválido enquanto a pessoa ainda digita é hostil. */
+.form-validado .campo input:invalid,
+.form-validado .campo select:invalid,
+.form-validado .campo textarea:invalid {
+  border-color: var(--alerta);
+  background: var(--alerta-fundo);
+}
+
+.form-validado .campo input:required:valid,
+.form-validado .campo textarea:required:valid,
+.form-validado .campo select:required:valid {
+  border-color: var(--verde-tradicao);
+}
+
+/* ---------- Botão em processamento (item 6) ---------- */
+
+.botao[disabled] { transform: none; }
+
+/* Barra indeterminada na base do botão: a espera de 3 a 8 s do Power Automate
+   é longa demais para o único retorno ser a troca do texto. */
+.botao--carregando::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 40%;
+  background: var(--verde-tradicao);
+  border-radius: 4px;
+  animation: desliza 1.1s ease-in-out infinite;
+}
+
+@keyframes desliza {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+/* ---------- Entrada dos valores do config (item 7) ---------- */
+
+/* Os elementos de config chegam vazios e são preenchidos por JS. A transição
+   suaviza o salto sem esconder nada: se o script falhar, o texto simplesmente
+   não existe e o aviso de erro do portal.js assume. */
+[data-cfg] { transition: opacity 140ms ease-out; }
+
+html:not(.cfg-pronto) [data-cfg] { opacity: 0; }
+
+/* ---------- Transição entre páginas ---------- */
+
+/* View Transitions cross-document: o navegador tira um retrato da página que sai
+   e da que entra e anima entre os dois. Sem JavaScript e sem interceptar clique.
+   Chrome/Edge 126+ e Safari 18.2+; onde não houver suporte a navegação acontece
+   como hoje, sem quebrar nada. Só vale para navegação de mesma origem — os links
+   do OneDrive e do wa.me saem do site e não entram na transição. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Cabeçalho e rodapé são idênticos nas 5 páginas. Nomeados, viram grupos próprios
+   e permanecem parados enquanto o conteúdo troca — a marca não pisca. */
+.topo { view-transition-name: topo; }
+.rodape { view-transition-name: rodape; }
+
+/* Curto de propósito: num canal que atende relato de desvio, transição longa
+   é atrito, não charme. Sai rápido, entra um pouco mais devagar. */
+::view-transition-old(root) {
+  animation: 110ms cubic-bezier(.4, 0, 1, 1) both pagina-sai;
+}
+
+::view-transition-new(root) {
+  animation: 180ms cubic-bezier(0, 0, .2, 1) both pagina-entra;
+}
+
+@keyframes pagina-sai {
+  to { opacity: 0; transform: translateY(-6px); }
+}
+
+@keyframes pagina-entra {
+  from { opacity: 0; transform: translateY(10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+
+/* ---------- Movimento reduzido ---------- */
+
+/* Quem pediu menos movimento no sistema recebe tudo estático — sem exceção e
+   sem nada que dependa de animação para ficar visível. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .card:active,
+  .botao:active { transform: none; }
+
+  html:not(.cfg-pronto) [data-cfg] { opacity: 1; }
+}

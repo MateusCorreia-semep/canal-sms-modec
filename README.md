@@ -209,6 +209,9 @@ npx wrangler pages deploy .
   logo e corresponde ao Pantone 375C.
 - **Cabeçalho e rodapé idênticos nas 5 páginas** — 62 px e 173 px. Qualquer
   alteração deve ser feita em todas, senão a estrutura "pula" ao navegar.
+- **Transição entre páginas** por View Transitions cross-document, só CSS.
+  Cabeçalho e rodapé são nomeados e ficam parados enquanto o conteúdo troca.
+  Chrome/Edge 126+ e Safari 18.2+; onde não há suporte, a navegação é a de sempre.
 - **Sem dependências.** Nada de framework, CDN ou pacote npm.
 
 ## Pendências
