@@ -66,15 +66,6 @@
       el.href = valor;
     });
 
-    // Cards que vão direto ao WhatsApp, sem formulário.
-    document.querySelectorAll('[data-wa-direto]').forEach(function (el) {
-      var alvo = buscar('whatsapp.' + el.getAttribute('data-wa-destino'), cfg);
-      if (!alvo || !alvo.numero) {
-        el.setAttribute('aria-disabled', 'true');
-        return;
-      }
-      el.href = linkWhatsApp(alvo.numero, el.getAttribute('data-wa-direto'));
-    });
   }
 
   /* ---------- formulários ---------- */
@@ -93,8 +84,58 @@
     return linhas.join('\n');
   }
 
-  function coletarDados(form) {
+  /* Crockford base32, sem I, L, O e U: quem dita o protocolo por rádio ou
+     WhatsApp nunca precisa perguntar se é ó ou zero. */
+  var ALFABETO_PROTOCOLO = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+
+  function sorteio(chars) {
+    var saida = '';
+    var i;
+    var origem = window.crypto || window.msCrypto;
+
+    if (origem && origem.getRandomValues) {
+      var bytes = new Uint8Array(chars);
+      origem.getRandomValues(bytes);
+      // 256 é múltiplo exato de 32, então o resto não favorece nenhuma letra.
+      for (i = 0; i < chars; i++) saida += ALFABETO_PROTOCOLO[bytes[i] % 32];
+      return saida;
+    }
+
+    /* Sem crypto (contexto não seguro, navegador antigo) o sorteio piora, mas
+       nada aqui pode lançar: protocolo é comprovante, não pode barrar o relato. */
+    for (i = 0; i < chars; i++) saida += ALFABETO_PROTOCOLO[Math.floor(Math.random() * 32)];
+    return saida;
+  }
+
+  /* O protocolo nasce aqui, no envio, e não mais dentro do fluxo. Dois ganhos:
+     a pessoa recebe o comprovante mesmo que o Power Automate demore, e o fluxo
+     deixa de depender de uma expressão que falha calada — ele só grava o número
+     que chegou. O rótulo vem de data-prefixo, um por formulário.
+
+     Sai no formato EMG-260922-56WQ8E: data mais seis caracteres sorteados.
+     A parte aleatória substituiu hora e milissegundos porque relógio não é
+     identificador — dois aparelhos podem marcar o mesmo instante, e três
+     chamadas no mesmo milissegundo devolviam o mesmo número. Com 32^6 combinações
+     por dia, a chance de repetir em cinco anos fica em torno de uma em 470.
+
+     O relógio ainda define a data, então o número é identificador, não prova de
+     horário: quem manda no quando é o DataHoraEvento gravado pelo fluxo. */
+  function gerarProtocolo(prefixo) {
+    var agora = new Date();
+
+    function pad(valor) {
+      var texto = String(valor);
+      return texto.length < 2 ? '0' + texto : texto;
+    }
+
+    return prefixo + '-' +
+      pad(agora.getFullYear() % 100) + pad(agora.getMonth() + 1) + pad(agora.getDate()) +
+      '-' + sorteio(6);
+  }
+
+  function coletarDados(form, protocolo) {
     var dados = {};
+    if (protocolo) dados.protocolo = protocolo;
     form.querySelectorAll('[data-campo]').forEach(function (campo) {
       var nome = campo.getAttribute('data-campo');
       if (campo.type === 'radio') {
@@ -117,11 +158,9 @@
       body: JSON.stringify(corpo)
 
     }).then(function (resp) {
+      // O protocolo agora vai daqui para o fluxo, não o contrário. O corpo da
+      // resposta deixou de importar: 200 já significa gravado.
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
-      return resp.json();
-      
-    }).then(function (json) {
-      return json.protocolo || null;
     });
   }
 
@@ -134,6 +173,15 @@
     return !!marcado && marcado.value === partes[1];
   }
 
+  /* Decide se este envio termina no WhatsApp. Precisa ser consultável antes e
+     depois do registro: o que fazer quando o registro falha depende de existir
+     ou não um segundo canal para a mensagem. */
+  function vaiAoWhatsApp(form, destino) {
+    var alvo = buscar('whatsapp.' + destino, cfg);
+    if (!alvo || !alvo.numero) return false;
+    return condicaoAtendida(form);
+  }
+
   /* Um caminho só passa pelo /api/registrar se o fluxo dele existir. Sem a lista,
      os caminhos ainda sem fluxo mostrariam "não foi possível registrar" à toa. */
   function registroLigado(caminho) {
@@ -143,12 +191,37 @@
     return true;
   }
 
+  /* Sem fluxo, "só registrar" significa descartar o relato — não há para onde o
+     registro ir. Enquanto o caminho não grava, o seletor some e o envio segue
+     direto ao WhatsApp. Volta sozinho quando o caminho entrar em
+     registro.caminhos, sem precisar mexer no HTML. */
+  function ajustarSeletor(form, caminho) {
+    var regra = form.getAttribute('data-wa-condicao');
+    if (!regra || registroLigado(caminho)) return;
+
+    var partes = regra.split('=');
+    var opcoes = form.querySelectorAll('[data-campo="' + partes[0] + '"]');
+    if (!opcoes.length) return;
+
+    // Marcar a opção que leva ao WhatsApp também satisfaz o required do grupo,
+    // que senão travaria o envio num campo escondido.
+    opcoes.forEach(function (opcao) {
+      opcao.checked = opcao.value === partes[1];
+    });
+
+    var campo = opcoes[0].closest('.campo');
+    if (campo) campo.classList.add('oculto');
+  }
+
   function ligarFormulario(form) {
     var caminho = form.getAttribute('data-caminho');
     var destino = form.getAttribute('data-wa-destino');
     var botao = form.querySelector('button[type="submit"]');
     var status = form.querySelector('.status');
     var rotuloBotao = botao ? botao.textContent : '';
+    var protocolo = null;
+
+    ajustarSeletor(form, caminho);
 
     form.addEventListener('submit', function (ev) {
       ev.preventDefault();
@@ -157,53 +230,101 @@
       form.classList.add('form-validado');
       if (!form.reportValidity()) return;
 
+      var registra = registroLigado(caminho);
+
+      /* Um protocolo por formulário, não por tentativa. A Function corta o fluxo
+         em 20 s e ele pode concluir depois: se a retentativa trouxesse um número
+         novo, o mesmo evento viraria dois registros sem nada que os ligasse. */
+      if (registra && !protocolo) {
+        protocolo = gerarProtocolo(form.getAttribute('data-prefixo') || 'SMS');
+      }
+
       if (botao) {
         botao.disabled = true;
-        botao.textContent = 'Registrando…';
+        // Quem não grava não está "registrando": o rótulo original continua certo.
+        if (registra) botao.textContent = 'Registrando…';
         botao.classList.add('botao--carregando');
       }
       if (status) { status.className = 'status'; status.textContent = ''; }
 
-      var seguir = function (protocolo) {
-        var alvo = buscar('whatsapp.' + destino, cfg);
-        var mensagem = montarMensagem(form, protocolo);
-
-        if (form.hasAttribute('data-sem-whatsapp') || !alvo || !alvo.numero || !condicaoAtendida(form)) {
-          concluirSemWhatsApp(form, protocolo, status, botao, rotuloBotao);
+      var seguir = function (numero) {
+        if (!vaiAoWhatsApp(form, destino)) {
+          concluirSemWhatsApp(form, numero, status, botao, rotuloBotao);
           return;
         }
 
-        if (status && protocolo) status.textContent = 'Registrado com o protocolo ' + protocolo + '. Abrindo o WhatsApp…';
+        var alvo = buscar('whatsapp.' + destino, cfg);
+        var mensagem = montarMensagem(form, numero);
+
+        /* Deixa o comprovante na tela antes de sair. No celular o WhatsApp abre
+           por cima e a pessoa volta ao navegador achando o protocolo — sem isso
+           ele só existiria dentro de uma mensagem que ela ainda pode não enviar. */
+        if (numero) mostrarConfirmacao(form, numero, true);
+
         window.location.href = linkWhatsApp(alvo.numero, mensagem);
       };
 
-      if (!registroLigado(caminho)) {
+      if (!registra) {
         seguir(null);
         return;
       }
 
-      registrar(caminho, coletarDados(form), form)
-        .then(seguir)
+      registrar(caminho, coletarDados(form, protocolo), form)
+        .then(function () { seguir(protocolo); })
         .catch(function () {
           // Regra do projeto: falha de integração nunca bloqueia o atendimento.
+          if (vaiAoWhatsApp(form, destino)) {
+            if (status) {
+              status.className = 'status status--erro';
+              status.textContent = 'Não foi possível registrar automaticamente. ' +
+                'Sua mensagem segue para o WhatsApp mesmo assim — descreva a situação por lá.';
+            }
+            setTimeout(function () { seguir(null); }, 2500);
+            return;
+          }
+
+          /* Quem escolheu só registrar não tem segundo canal: mostrar a tela de
+             confirmação aqui afirmaria um registro que não existe. O formulário
+             fica de pé, preenchido, para a pessoa tentar de novo. */
           if (status) {
             status.className = 'status status--erro';
-            status.textContent = 'Não foi possível registrar automaticamente. ' +
-              'Sua mensagem segue para o WhatsApp mesmo assim — descreva a situação por lá.';
+            status.textContent = 'Não foi possível registrar agora. Tente novamente em instantes ' +
+              'ou escolha falar pelo WhatsApp para não perder o relato.';
           }
-          setTimeout(function () { seguir(null); }, 2500);
+          // O token do Turnstile é de uso único: sem zerar o widget, a segunda
+          // tentativa é recusada com o mesmo erro.
+          if (window.turnstile) window.turnstile.reset();
+          if (botao) {
+            botao.disabled = false;
+            botao.textContent = rotuloBotao;
+            botao.classList.remove('botao--carregando');
+          }
         });
     });
   }
 
-  function concluirSemWhatsApp(form, protocolo, status, botao, rotuloBotao) {
+  /* Troca o formulário pelo comprovante. `comConversa` diz se a pessoa ainda vai
+     ao WhatsApp: os trechos marcados com data-so-registro só valem para quem
+     encerrou no protocolo, e prometer contato a quem já vai falar é ruído. */
+  function mostrarConfirmacao(form, protocolo, comConversa) {
     var confirmacao = document.getElementById('confirmacao');
-    if (confirmacao) {
-      var prot = confirmacao.querySelector('[data-protocolo]');
-      if (prot) prot.textContent = protocolo || '—';
-      form.classList.add('oculto');
-      confirmacao.classList.remove('oculto');
-      confirmacao.scrollIntoView({ behavior: 'smooth' });
+    if (!confirmacao) return false;
+
+    var prot = confirmacao.querySelector('[data-protocolo]');
+    if (prot) prot.textContent = protocolo || '—';
+
+    confirmacao.querySelectorAll('[data-so-registro]').forEach(function (el) {
+      el.classList.toggle('oculto', !!comConversa);
+    });
+
+    form.classList.add('oculto');
+    confirmacao.classList.remove('oculto');
+    return true;
+  }
+
+  function concluirSemWhatsApp(form, protocolo, status, botao, rotuloBotao) {
+    if (mostrarConfirmacao(form, protocolo, false)) {
+      document.getElementById('confirmacao').scrollIntoView({ behavior: 'smooth' });
       return;
     }
     if (status) status.textContent = 'Registro concluído. Obrigado.';

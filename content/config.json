@@ -1,7 +1,6 @@
 {
   "versao": "2026-08-27",
   "janelaAtendimento": "Segunda a sexta, das 08h às 17h",
-  "telefoneEmergencia": "PENDENTE-WA-05",
   "whatsapp": {
     "sms": {
       "numero": "5522998756534",
@@ -16,11 +15,11 @@
   },
   "materiais": {
     "dds": {
-      "url": "https://semep1-my.sharepoint.com/:f:/g/personal/agbo0101009753_agbogroup_com/IgC7sGQkSNa2RquojBumGMfSARiD4OHr5svXz-HbK4oov9o?e=EJXkGt",
+      "url": "https://prinerservicos-my.sharepoint.com/:f:/g/personal/mateus_santos_semep_com_br/IgDGv3f8p1B6Q7nO2HEufN_5ARZolmGTD4vNO7g0LrE6hkM?e=SeaLcs",
       "_nota": "PROVISÓRIO — pasta única de teste. Separar a pasta do DDS antes do piloto."
     },
     "acoes": {
-      "url": "https://semep1-my.sharepoint.com/:f:/g/personal/agbo0101009753_agbogroup_com/IgC7sGQkSNa2RquojBumGMfSARiD4OHr5svXz-HbK4oov9o?e=EJXkGt",
+      "url": "https://prinerservicos-my.sharepoint.com/:f:/g/personal/mateus_santos_semep_com_br/IgBlaAjuoppHR4EYYHWhaMOdARJt-IA44PGhPJNgzKA-pto?e=u95O5T",
       "_nota": "PROVISÓRIO — mesma pasta do DDS. Separar antes do piloto e, quando o texto oficial das 10 Ações chegar (WA-03), o conteúdo passa a ser página própria."
     }
   },
@@ -28,9 +27,10 @@
     "habilitado": true,
     "endpoint": "/api/registrar",
     "caminhos": [
-      "EMERGENCIA"
+      "EMERGENCIA",
+      "ATENDIMENTO"
     ],
-    "_nota": "Só os caminhos listados em 'caminhos' passam pelo /api/registrar. SAUDE fica fora por decisão de projeto: o check-in de bem-estar não é gravado em lugar nenhum, vai direto à conversa com a enfermagem. ATENDIMENTO entra quando o fluxo dele existir."
+    "_nota": "Só os caminhos listados em 'caminhos' passam pelo /api/registrar. SAUDE fica fora por decisão de projeto: o check-in de bem-estar não é gravado em lugar nenhum, vai direto à conversa com a enfermagem."
   },
   "turnstile": {
     "habilitado": true,

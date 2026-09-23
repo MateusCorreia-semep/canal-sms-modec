@@ -47,13 +47,15 @@
 
   <div class="conteudo">
     <h1>Registre seus desvios</h1>
-    <p class="chamada">Desvio, condição insegura, quase acidente ou acidente: registre aqui. Ao final, o WhatsApp abre com a mensagem pronta para você enviar ao TST.</p>
+    <p class="chamada">Desvio, condição insegura, quase acidente ou acidente: registre aqui. No fim você escolhe se quer só registrar ou também falar com o TST pelo WhatsApp.</p>
   </div>
 
   <form class="painel"
         data-caminho="EMERGENCIA"
+        data-prefixo="EMG"
         data-wa-destino="sms"
         data-abertura="[CANAL SMS] Registro de desvio ou evento"
+        data-wa-condicao="falar=Sim"
         novalidate>
 
     <div class="campo">
@@ -97,9 +99,30 @@
                 data-campo="descricao" data-rotulo="Descrição"></textarea>
     </div>
 
-    <button class="botao" type="submit">Registrar e falar no WhatsApp</button>
+    <div class="campo">
+      <label id="rotulo-falar">Depois de registrar, o que você quer fazer?</label>
+      <div class="opcoes" role="radiogroup" aria-labelledby="rotulo-falar">
+        <label class="opcao"><input type="radio" name="falar" value="Sim" checked required
+               data-campo="falar"> Falar com o TST agora, pelo WhatsApp</label>
+        <label class="opcao"><input type="radio" name="falar" value="Não"
+               data-campo="falar"> Só registrar — não preciso falar agora</label>
+      </div>
+    </div>
+
+    <button class="botao" type="submit">Enviar registro</button>
     <p class="status" role="status" aria-live="polite"></p>
   </form>
+
+  <!-- Aparece no lugar do formulário quando a pessoa escolhe só registrar.
+       Sem o WhatsApp, o protocolo é o único comprovante que ela leva. -->
+  <div class="painel oculto" id="confirmacao">
+    <h2 class="painel__titulo">Registro recebido</h2>
+    <p>Protocolo <strong data-protocolo>—</strong>. Anote esse número: é por ele que a
+       equipe de SMS acompanha o seu registro.</p>
+    <p>O TST analisa o relato e procura você se precisar de mais detalhes. Se a
+       situação piorar ou houver risco imediato, acione o resgate da sua unidade.</p>
+    <a class="botao botao--secundario" href="index.html">Voltar ao menu</a>
+  </div>
 
 
 </main>

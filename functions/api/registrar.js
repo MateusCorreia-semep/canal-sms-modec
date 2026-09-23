@@ -10,15 +10,16 @@
  * Variáveis de ambiente (Pages → Settings → Environment variables, como Secret):
  *   FLOW_URL_EMERGENCIA   URL do gatilho do fluxo de emergência
  *   FLOW_URL_ATENDIMENTO  URL do gatilho do fluxo de atendimento
- *   FLOW_URL_SAUDE        URL do gatilho do fluxo de saúde mental
  *   FLOW_TOKEN            segredo compartilhado; o fluxo compara e rejeita se diferir
  *   TURNSTILE_SECRET      opcional; se ausente, a verificação do Turnstile é pulada
  */
 
+/* SAUDE não entra: por decisão de projeto o check-in de bem-estar não é gravado
+   em lugar nenhum. Deixar a chave aqui só criaria um caminho aceito pela API que
+   nunca teria fluxo do outro lado. */
 const FLUXOS = {
   EMERGENCIA: 'FLOW_URL_EMERGENCIA',
   ATENDIMENTO: 'FLOW_URL_ATENDIMENTO',
-  SAUDE: 'FLOW_URL_SAUDE',
 };
 
 const LIMITE_CAMPO = 2000;

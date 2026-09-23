@@ -53,7 +53,7 @@ como *secret* e é o único ponto exposto.
 |---|---|---|
 | Registre seus desvios | `emergencia.html` → WhatsApp do SMS | **Sim** — lista `Emergencias` |
 | Fale com a saúde | `saude-mental.html` → WhatsApp da enfermagem | Não, por decisão de projeto |
-| Fale com o time da segurança | `atendimento.html` → WhatsApp do SMS | Ainda não — fluxo pendente |
+| Fale com o time da segurança | `atendimento.html` → WhatsApp do SMS | **Sim** — lista `AtendimentosSMS` |
 | DDS | Pasta do OneDrive | — |
 | Ações pela Vida | `acoes-pela-vida.html` → pasta do OneDrive | — |
 
@@ -104,11 +104,51 @@ avisa "Link ainda não configurado" em vez de levar a um 404.
 Só os caminhos listados em `registro.caminhos` passam pela API. Os demais montam a
 mensagem e vão direto ao WhatsApp — sem chamada, sem espera e sem mensagem de erro.
 
-1. O colaborador envia o formulário.
-2. O portal chama `POST /api/registrar` com `{ caminho, dados, turnstileToken }`.
+1. O colaborador envia o formulário e o portal **gera o protocolo** ali mesmo.
+2. O portal chama `POST /api/registrar` com `{ caminho, dados, turnstileToken }`,
+   já com o protocolo dentro de `dados`.
 3. A Function valida o Turnstile, injeta o `FLOW_TOKEN` e chama o fluxo.
-4. O fluxo grava na lista, notifica o Teams e devolve `{ "protocolo": "EMG-…" }`.
-5. O portal mostra o protocolo e redireciona ao WhatsApp com ele na mensagem.
+4. O fluxo grava na lista (`Title` = o protocolo recebido) e notifica o Teams.
+   O corpo da resposta não é mais lido: `200` já significa gravado.
+5. O portal mostra o protocolo e, se a pessoa pediu, segue ao WhatsApp com ele
+   na mensagem.
+
+### De onde vem o protocolo
+
+Do portal, no formato `EMG-260922-56WQ8E` — prefixo (`data-prefixo` do
+formulário), data `YYMMDD` e seis caracteres sorteados.
+
+O sorteio usa **Crockford base32** (`0123456789ABCDEFGHJKMNPQRSTVWXYZ`, sem
+`I`, `L`, `O` e `U`): quem dita o protocolo por rádio ou WhatsApp nunca precisa
+perguntar se é ó ou zero.
+
+Nasceu dentro do fluxo e mudou de lugar de propósito. No fluxo, o número dependia
+de `outputs('...')` apontando para um Redigir — referência que devolve `null` em
+silêncio quando o nome interno da ação não bate, deixando `Title`, card do Teams e
+tela do portal vazios de uma vez só. Gerando no portal, o número existe antes da
+chamada: a pessoa recebe o comprovante mesmo se o Power Automate demorar, e o
+fluxo só precisa gravar o que chegou.
+
+A parte aleatória já foi hora e milissegundos, e não serve: relógio não é
+identificador. Dois aparelhos podem marcar o mesmo instante, e no teste três
+chamadas seguidas no mesmo milissegundo devolveram o mesmo número. Com 32^6
+combinações por dia, a chance de repetir em cinco anos cai para cerca de uma em
+470 — contra uma em 38 do formato anterior.
+
+Quatro caracteres em vez de seis pareceriam mais bonitos e seriam um erro: a
+chance de duplicar em cinco anos sobe para 88%.
+
+O relógio ainda define a data, então o protocolo é identificador, não prova de
+horário — quem manda no quando é o `DataHoraEvento` que o fluxo grava com
+`utcNow()`. Um aparelho com data errada gera um protocolo estranho, nunca um
+registro perdido.
+
+O protocolo é gerado **uma vez por formulário**, não por tentativa de envio. A
+Function corta o fluxo em 20 s e ele pode concluir depois: se a retentativa
+trouxesse um número novo, o mesmo evento viraria dois registros sem nada que os
+ligasse. Com o número fixo, a duplicata fica visível no `Title`.
+
+No fluxo, `Title` recebe `triggerBody()?['dados']?['protocolo']`.
 
 **Falha nunca bloqueia o atendimento.** Se a Function ou o fluxo caírem, o portal
 avisa que não foi possível registrar e **segue para o WhatsApp mesmo assim**, sem
@@ -118,12 +158,18 @@ protocolo. Perder o registro é ruim; impedir alguém de comunicar um desvio é 
 
 | `caminho` | Campos enviados | Lista |
 |---|---|---|
-| `EMERGENCIA` | `nome`, `matricula`, `local`, `tipo`, `descricao` | `Emergencias` |
-| `ATENDIMENTO` | `nome`, `matricula`, `setor`, `funcao`, `assunto` | `AtendimentosSMS` |
-| `SAUDE` | `sentimento`, `comentario`, `nome` | não grava |
+| `EMERGENCIA` | `protocolo`, `nome`, `matricula`, `local`, `tipo`, `descricao`, `falar` | `Emergencias` |
+| `ATENDIMENTO` | `protocolo`, `nome`, `matricula`, `setor`, `funcao`, `assunto`, `falar` | `AtendimentosSMS` |
+| `SAUDE` | — não chama a API | não grava |
 
 Campos vazios não são enviados — a Function os remove. O esquema do gatilho no
 Power Automate não pode marcá-los como obrigatórios.
+
+O campo `falar` (`Sim`/`Não`) é a escolha do seletor: diz se a pessoa segue para o
+WhatsApp ou se encerra no protocolo. Vai para o fluxo, mas **não** entra na mensagem
+do WhatsApp, onde seria ruído — por isso tem `data-campo` e não `data-rotulo`. Ao
+regerar o esquema do gatilho pelo payload de exemplo, inclua `falar`: sem ele o campo
+não aparece como conteúdo dinâmico e a coluna do SharePoint fica vazia.
 
 ### Respostas de erro da Function
 
@@ -133,7 +179,7 @@ Power Automate não pode marcá-los como obrigatórios.
 |---|---|
 | `turnstile_nao_configurado` (503) | `TURNSTILE_SECRET` não chegou ao ambiente |
 | `verificacao_falhou` (403) | Token do Turnstile inválido — geralmente hostname fora da lista |
-| `caminho_invalido` (400) | `caminho` não é `EMERGENCIA`, `ATENDIMENTO` ou `SAUDE` |
+| `caminho_invalido` (400) | `caminho` não é `EMERGENCIA` nem `ATENDIMENTO` |
 | `fluxo_nao_configurado` (503) | Falta a `FLOW_URL_…` do caminho |
 | `fluxo_recusou` (502) | O fluxo respondeu erro — quase sempre `FLOW_TOKEN` divergente |
 | `fluxo_indisponivel` (504) | O fluxo passou de 20 s |
@@ -146,8 +192,7 @@ de **Production** (as de Preview não valem para produção):
 | Variável | Conteúdo |
 |---|---|
 | `FLOW_URL_EMERGENCIA` | URL do gatilho HTTP do fluxo de desvios |
-| `FLOW_URL_ATENDIMENTO` | idem, quando o fluxo existir |
-| `FLOW_URL_SAUDE` | não usado: saúde mental não grava |
+| `FLOW_URL_ATENDIMENTO` | URL do gatilho HTTP do fluxo de atendimento |
 | `FLOW_TOKEN` | segredo compartilhado, conferido pelo fluxo no cabeçalho `x-canal-sms-token` |
 | `TURNSTILE_SECRET` | chave secreta do Turnstile |
 
@@ -223,7 +268,6 @@ npx wrangler pages deploy .
 | WA-06 | Validar com a equipe SMS os campos dos formulários |
 | WA-07 | Retenção e descarte dos dados (LGPD) |
 | WA-08 | Quem mantém a pasta do DDS atualizada |
-| — | Fluxos de `ATENDIMENTO` e o domínio `canalsms.priner.com.br` |
+| — | Domínio `canalsms.priner.com.br` |
 | — | Separar as pastas de DDS e Ações pela Vida, hoje apontando para a mesma |
 | — | `og:url` e `og:image` usam `canal-sms-modec.pages.dev`; trocar ao mudar de domínio |
-| — | `telefoneEmergencia` ficou órfão no config após a remoção do aviso de resgate |

@@ -46,13 +46,15 @@
 
   <div class="conteudo">
     <h1>Fale com o time da segurança</h1>
-    <p class="chamada">Dúvidas, sugestões ou necessidade de apoio. Informe os dados abaixo para a equipe já chegar na conversa sabendo quem é você.</p>
+    <p class="chamada">Dúvidas, sugestões ou necessidade de apoio. Informe os dados abaixo e escolha se quer falar agora ou apenas deixar a solicitação registrada.</p>
   </div>
 
   <form class="painel"
         data-caminho="ATENDIMENTO"
+        data-prefixo="ATD"
         data-wa-destino="sms"
         data-abertura="[CANAL SMS] Solicitação de atendimento"
+        data-wa-condicao="falar=Sim"
         novalidate>
 
     <div class="campo">
@@ -87,9 +89,31 @@
                 data-campo="assunto" data-rotulo="Assunto"></textarea>
     </div>
 
-    <button class="botao" type="submit">Registrar e falar no WhatsApp</button>
+    <div class="campo">
+      <label id="rotulo-falar">Depois de registrar, o que você quer fazer?</label>
+      <div class="opcoes" role="radiogroup" aria-labelledby="rotulo-falar">
+        <label class="opcao"><input type="radio" name="falar" value="Sim" checked required
+               data-campo="falar"> Falar com a equipe agora, pelo WhatsApp</label>
+        <label class="opcao"><input type="radio" name="falar" value="Não"
+               data-campo="falar"> Só registrar — não preciso falar agora</label>
+      </div>
+    </div>
+
+    <button class="botao" type="submit">Enviar solicitação</button>
     <p class="status" role="status" aria-live="polite"></p>
   </form>
+
+  <!-- Aparece no lugar do formulário quando a pessoa escolhe só registrar.
+       Sem o WhatsApp, o protocolo é o único comprovante que ela leva. -->
+  <div class="painel oculto" id="confirmacao">
+    <h2 class="painel__titulo">Solicitação registrada</h2>
+    <p>Protocolo <strong data-protocolo>—</strong>. Anote esse número: é por ele que a
+       equipe de SMS acompanha o seu atendimento.</p>
+    <p data-so-registro>A equipe procura você dentro da janela de atendimento
+       (<span data-cfg="janelaAtendimento">&nbsp;</span>). Se for urgente, volte e
+       escolha falar agora pelo WhatsApp.</p>
+    <a class="botao botao--secundario" href="index.html">Voltar ao menu</a>
+  </div>
 
 
 </main>

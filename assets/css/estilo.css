@@ -381,6 +381,14 @@ body > .rodape { flex: 0 0 auto; }
   box-shadow: var(--sombra);
 }
 
+/* Título dos painéis de confirmação. Mora aqui, e não num style=, porque a
+   CSP do projeto é style-src 'self': atributo de estilo inline é bloqueado. */
+.painel__titulo {
+  margin-top: 0;
+  color: var(--verde-tradicao);
+  font-size: 20px;
+}
+
 /* ---------- Formulários ---------- */
 
 .campo { margin-bottom: 16px; }

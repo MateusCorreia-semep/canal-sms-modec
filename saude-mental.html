@@ -53,6 +53,7 @@
         data-caminho="SAUDE"
         data-wa-destino="enfermagem"
         data-abertura="[CANAL SMS] Saúde mental e bem-estar"
+        data-wa-condicao="falar=Sim"
         novalidate>
 
     <div class="campo">
@@ -83,12 +84,27 @@
       <input id="nome" type="text" autocomplete="name" required data-campo="nome" data-rotulo="Nome">
     </div>
 
+    <!-- Seletor inerte por ora: SAUDE não grava (decisão de projeto, ver config),
+         então o portal esconde este campo sozinho e o envio segue direto à
+         enfermagem. Se um dia SAUDE entrar em registro.caminhos, o seletor
+         aparece — e aí o rótulo do botão abaixo precisa deixar de prometer a
+         conversa, como foi feito em emergencia.html e atendimento.html. -->
+    <div class="campo">
+      <label id="rotulo-falar">Como você prefere seguir?</label>
+      <div class="opcoes" role="radiogroup" aria-labelledby="rotulo-falar">
+        <label class="opcao"><input type="radio" name="falar" value="Sim" checked required
+               data-campo="falar"> Falar com a enfermagem agora, pelo WhatsApp</label>
+        <label class="opcao"><input type="radio" name="falar" value="Não"
+               data-campo="falar"> Só registrar como estou me sentindo</label>
+      </div>
+    </div>
+
     <button class="botao" type="submit">Falar com a enfermagem</button>
     <p class="status" role="status" aria-live="polite"></p>
   </form>
 
   <div class="painel oculto" id="confirmacao">
-    <h2 style="margin-top:0;color:var(--verde-tradicao);font-size:20px;">Obrigado por contar como você está</h2>
+    <h2 class="painel__titulo">Obrigado por contar como você está</h2>
     <p>No momento não foi possível abrir a conversa com a enfermagem por aqui.
        Procure a equipe de SMS ou a liderança da sua unidade.</p>
     <a class="botao botao--secundario" href="index.html">Voltar ao menu</a>
