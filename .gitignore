@@ -20,7 +20,5 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
-
-# Config local de preview
 .claude/
 PLANO-ESTILO.md
